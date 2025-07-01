@@ -1,11 +1,11 @@
-package org.lessons.java.spring.crud.spring_pizzeria_crud.controller;
+package org.lessons.java.spring.crud.pizzeria_crud.controller;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.lessons.java.spring.crud.spring_pizzeria_crud.model.Pizza;
-import org.lessons.java.spring.crud.spring_pizzeria_crud.model.SpecialOffer;
-import org.lessons.java.spring.crud.spring_pizzeria_crud.repository.PizzaRepository;
+import org.lessons.java.spring.crud.pizzeria_crud.model.Borrowing;
+import org.lessons.java.spring.crud.pizzeria_crud.model.Pizza;
+import org.lessons.java.spring.crud.pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -107,8 +107,8 @@ public class PizzeController {
         return "redirect:/pizze";
     }
 
-    @GetMapping("/offers/{id}")
-    public String offer(@PathVariable("id") Integer id, Model model) {
+    @GetMapping("/borrowings/{id}")
+    public String borrow(@PathVariable("id") Integer id, Model model) {
 
         Optional<Pizza> pizzaOptional = pizzaRepository.findById(id);
         if (pizzaOptional.isEmpty())
@@ -116,10 +116,12 @@ public class PizzeController {
                     "There is no pizza with id " + id + ", so you cannot create an offer for it!");
 
         model.addAttribute("pizza", pizzaOptional.get());
-        SpecialOffer offer = new SpecialOffer();
-        offer.setPizza(pizzaOptional.get());
-        model.addAttribute("special_offer", offer);
-        return "offers/create";
+        Borrowing borrowing = new Borrowing();
+        borrowing.setPizza(pizzaOptional.get());
+        model.addAttribute("borrowing", borrowing);
+        
+        return "borrowings/create";
     }
+
 
 }

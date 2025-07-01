@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="~{fragments/head :: head ('offers')}">
+<head th:replace="~{fragments/head :: head ('borrowings')}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizze</title>
@@ -15,30 +15,31 @@
 
     <main class="container">
         <section class="title row">
+            <div class="col-12">
+
+                <h1 class="text-center m-2">Creating a new borrowing for <strong th:text="${borrowing.pizza.name}"></strong></h1>
+
+            </div>
+        </section>
+
+
+        <section class="borrowings row">
             <div class="col-12 text-center">
                 <ul>
                     <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
                 </ul>
             </div>
             <div class="col-12">
-
-                <h1 class="text-center m-2">Creating a new offer for <strong th:text="${pizza.name}"></strong></h1>
-
-            </div>
-        </section>
-
-
-        <section class="offers row">
-            <div class="col-12">
-                <form th:action="@{/offers/create}" method="POST" th:object="${special_offer}" id="offer-creation-form">
+                <form th:action="@{/borrowings}" method="POST" th:object="${borrowing}" id="borrowing-creation-form">
                     <!-- Nel form, l'action rappresenta l'indirizzo dove va a fare la sua chiamata e il method rappresente il come effettua la chiamata-->
 
-                   <input type="hidden" th:field="*{pizza}" id="pizza_id"> 
+                   <input type="hidden" th:field="*{pizza}" id="pizza_id">
+                  
 
                     <div class="mb-3">
-                        <label for="offer-startingDate" class="form-label">Starting Date: </label>
-                        <input id="offer-startingDate" type="date" class="form-control" th:field="${special_offer.startingDate}" maxlength="50"
-                            th:errorClass="is-invalid" required>
+                        <label for="borrowing-startingDate" class="form-label">Starting Date: </label>
+                        <input id="borrowing-startingDate" type="date" class="form-control" th:field="${borrowing.startingDate}" maxlength="50"
+                            th:errorClass="is-invalid">
                         <div th:if="${#fields.hasErrors('startingDate')}" class="invalid-feedback">
                             <ul>
                                 <li th:each="err : ${#fields.errors('startingDate')}" th:text="${err}"></li>
@@ -47,9 +48,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="offer-finishingDate" class="form-label">Finishing Date: </label>
-                        <input id="offer-finishingDate" type="date" class="form-control" th:field="${special_offer.finishingDate}" maxlength="50"
-                                th:errorClass="is-invalid" required>
+                        <label for="borrowing-finishingDate" class="form-label">Finishing Date: </label>
+                        <input id="borrowing-finishingDate" type="date" class="form-control" th:field="${borrowing.finishingDate}" maxlength="50"
+                                th:errorClass="is-invalid">
                         <div th:if="${#fields.hasErrors('finishingDate')}" class="invalid-feedback">
                             <ul>
                                 <li th:each="err : ${#fields.errors('finishingDate')}" th:text="${err}"></li>
@@ -58,9 +59,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="offer-title" class="form-label">Offer Title: </label>
-                        <textarea id="offer-title" class="form-control" th:field="${special_offer.title}"
-                                minlength="3" rows="3" th:errorClass="is-invalid" required></textarea>
+                        <label for="borrowing-title" class="form-label">borrowing Title: </label>
+                        <textarea id="borrowing-title" class="form-control" th:field="${borrowing.title}"
+                                minlength="3" rows="3" th:errorClass="is-invalid"></textarea>
                         <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
                             <ul>
                                 <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>

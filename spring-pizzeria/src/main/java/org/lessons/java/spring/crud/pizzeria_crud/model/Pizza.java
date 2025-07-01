@@ -1,4 +1,4 @@
-package org.lessons.java.spring.crud.spring_pizzeria_crud.model;
+package org.lessons.java.spring.crud.pizzeria_crud.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -42,16 +42,18 @@ public class Pizza implements Serializable{
 
     public Pizza (){};
 
-    public List<SpecialOffer> getSpecialOffers() {
-        return this.specialOffers;
+
+    public List<Borrowing> getBorrowings() {
+        return this.borrowings;
     }
 
-    public void setSpecialOffers(List<SpecialOffer> specialOffers) {
-        this.specialOffers = specialOffers;
+    public void setBorrowings(List<Borrowing> borrowings) {
+        this.borrowings = borrowings;
     }
+    
 
     @OneToMany (mappedBy = "pizza")
-    private List<SpecialOffer> specialOffers;
+    private List<Borrowing> borrowings;
 
     public Integer getId() {
         return this.id;

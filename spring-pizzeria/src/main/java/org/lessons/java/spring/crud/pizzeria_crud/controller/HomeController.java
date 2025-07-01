@@ -1,4 +1,4 @@
-package org.lessons.java.spring.crud.spring_pizzeria_crud.controller;
+package org.lessons.java.spring.crud.pizzeria_crud.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

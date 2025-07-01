@@ -1,4 +1,4 @@
-package org.lessons.java.spring.crud.spring_pizzeria_crud;
+package org.lessons.java.spring.crud.pizzeria_crud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

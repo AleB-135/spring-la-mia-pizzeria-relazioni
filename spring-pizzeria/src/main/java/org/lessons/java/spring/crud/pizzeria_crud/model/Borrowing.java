@@ -1,4 +1,4 @@
-package org.lessons.java.spring.crud.spring_pizzeria_crud.model;
+package org.lessons.java.spring.crud.pizzeria_crud.model;
 
 import java.time.LocalDate;
 import jakarta.persistence.Entity;
@@ -13,8 +13,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "special_offers")
-public class SpecialOffer {
+@Table(name = "borrowings")
+public class Borrowing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +33,10 @@ public class SpecialOffer {
 
     @ManyToOne
     @JoinColumn(name = "pizza_id", nullable = false)
+    //In JoinColumn il nome corrisponde alla Foreign Key del database (da qui il nome pizza_id)
     private Pizza pizza;
 
+    
     public Pizza getPizza() {
         return this.pizza;
     }
