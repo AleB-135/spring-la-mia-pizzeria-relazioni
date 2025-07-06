@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="~{fragments/head :: head ('pizze')}">
+<head th:replace="~{fragments/head :: head ('Edit')}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizze</title>
@@ -43,6 +43,18 @@
                                 <li th:each="err : ${#fields.errors('pizza.name')}" th:text="${err}"></li>
                             </ul>
                         </div>
+
+
+                    <div class="mt-3">
+                        <label for="" class="form-label">Ingredients:</label>
+                    </div>
+                    <div class="mb-3" th:each="ingredient : ${ingredients}">
+                        <input type="checkbox" class="form-check-input" id="'ingredient-' + ${ingredient.id}"
+                            th:field="${pizza.ingredients}"
+                            th:value="${ingredient.id}">
+                            <!-- Per ogni ingrediente della pizza, il programma prenderà il singolo ingrediente (ingredient.id). Se la categoria a cui sto facendo riferiemnto ha valore "true", verrà cliccata. In caso contrario, no -->
+                        <label for="ingredient-name" class="form-check-label">[[${ingredient.name}]]</label> 
+                    </div>
 
                         <div class="mb-3">
                             <label for="pizza-imgUrl" class="form-label">Pizza imgUrl:</label>

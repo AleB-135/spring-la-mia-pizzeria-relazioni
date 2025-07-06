@@ -2,13 +2,17 @@ package org.lessons.java.spring.crud.pizzeria_crud.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
@@ -43,17 +47,32 @@ public class Pizza implements Serializable{
     public Pizza (){};
 
 
-    public List<Borrowing> getBorrowings() {
-        return this.borrowings;
+    public List<Offers> getOffers() {
+        return this.offers;
     }
 
-    public void setBorrowings(List<Borrowing> borrowings) {
-        this.borrowings = borrowings;
+    public void setofferss(List<Offers> offers) {
+        this.offers= offers;
     }
     
 
     @OneToMany (mappedBy = "pizza")
-    private List<Borrowing> borrowings;
+    private List<Offers> offers;
+
+    @ManyToMany
+    @JoinTable(
+        name = "ingredient_pizza",
+        joinColumns = @JoinColumn(name = "pizza_id"),
+        inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+    private Set<Ingredient> ingredients;
+
+    public Set<Ingredient> getIngredients() {
+        return this.ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
 
     public Integer getId() {
         return this.id;

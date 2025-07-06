@@ -3,8 +3,10 @@ package org.lessons.java.spring.crud.pizzeria_crud.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.lessons.java.spring.crud.pizzeria_crud.model.Borrowing;
+import org.lessons.java.spring.crud.pizzeria_crud.model.Offers;
 import org.lessons.java.spring.crud.pizzeria_crud.model.Pizza;
+import org.lessons.java.spring.crud.pizzeria_crud.repository.OffersRepository;
+import org.lessons.java.spring.crud.pizzeria_crud.repository.IngredientRepository;
 import org.lessons.java.spring.crud.pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,6 +52,9 @@ public class PizzeController {
         return "pizze/index";
     }
 
+    @Autowired 
+    private IngredientRepository ingredientRepository;
+
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
 
@@ -63,12 +68,15 @@ public class PizzeController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        // Per ottenere tutte le categorie necessarie alla selezione sulla creazione di una nuova pizza, bisogna prendere le informazioni dal DB sulla base di quanti ingredienti sono presenti nella Repository degli ingredienti stessi, come fatto qui sotto:
+        model.addAttribute("ingredients", ingredientRepository.findAll());
         return "pizze/create";
     }
 
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredients", ingredientRepository.findAll());
             return "pizze/create";
         }
 
@@ -85,12 +93,14 @@ public class PizzeController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no pizza with id " + id);
 
         model.addAttribute("pizza", pizzaOptional.get());
+        model.addAttribute("ingredients", ingredientRepository.findAll());
         return "pizze/edit";
     }
 
     @PostMapping("/edit/{id}")
     public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredients", ingredientRepository.findAll());
             return "pizze/edit";
         }
 
@@ -107,7 +117,7 @@ public class PizzeController {
         return "redirect:/pizze";
     }
 
-    @GetMapping("/borrowings/{id}")
+    @GetMapping("/offers/{id}")
     public String borrow(@PathVariable("id") Integer id, Model model) {
 
         Optional<Pizza> pizzaOptional = pizzaRepository.findById(id);
@@ -116,11 +126,11 @@ public class PizzeController {
                     "There is no pizza with id " + id + ", so you cannot create an offer for it!");
 
         model.addAttribute("pizza", pizzaOptional.get());
-        Borrowing borrowing = new Borrowing();
-        borrowing.setPizza(pizzaOptional.get());
-        model.addAttribute("borrowing", borrowing);
+        Offers offers = new Offers();
+        offers.setPizza(pizzaOptional.get());
+        model.addAttribute("offers", offers);
         
-        return "borrowings/create";
+        return "offers/create";
     }
 
 

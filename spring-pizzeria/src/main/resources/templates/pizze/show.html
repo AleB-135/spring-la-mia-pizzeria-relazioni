@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="~{fragments/head :: head ('pizze')}">
+<head th:replace="~{fragments/head :: head ('Show')}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizze</title>
@@ -25,27 +25,32 @@
                         <img th:src="*{Pizza.imgUrl}" class="card-img-top w-50" alt="Single pizza image">
                     </div>
 
-                    <h3 class="card-text mt-2 d-flex justify-content-center" th:text="${Pizza.description}"></h3>
+                    <!-- In  caso non si selezionino gli ingredienti a mano ma li si scrivano soltanto nella descrizione: -->
+                    <!-- <h3 class="card-text mt-2 d-flex justify-content-center" th:text="${Pizza.description}"></h3> -->
 
-                    <h5 class="d-flex justify-content-center">Prezzo: 
-                        <span class="card-text" th:text="${Pizza.price} + '0€'"></span>
+                    <h5 class="d-flex justify-content-center mb-3 mt-3">Price
+                        <span class="card-text" th:text="': ' + ${Pizza.price} + '0€'"></span>
                     </h5>
 
-                    <h6 class="card-footer d-flex justify-content-center">Id numero:
-                        <span th:text="${Pizza.id}"></span>
+                    <h5 class="card-subtitle fs-3 mb-3 d-flex justify-content-center">
+                        <span class="me-3" th:each="ingredient :${Pizza.ingredients}" th:text="${ingredient.name}"></span>
+                    </h5>
+
+                    <h6 class="card-footer d-flex justify-content-center">Id number
+                        <span th:text="': ' + ${Pizza.id}"></span>
                     </h6>
 
                     <div class="mb-3 mt-3 d-flex justify-content-between">
-                        <a th:href="@{|/pizze/borrowings/${Pizza.id}|}" class="btn btn-outline-danger btn-sm d-flex justify-content-center pt-2">Create a new special offer</a>
-                        <a th:href="@{/pizze}" class="btn btn-outline-primary btn-sm d-flex justify-content-center mb-2">Go back</a>
+                        <a th:href="@{|/pizze/offers/${Pizza.id}|}" class="btn btn-danger btn-sm d-flex justify-content-center pt-2">Create a new special offer</a>
+                        <a th:href="@{/pizze}" class="btn btn-primary btn-sm d-flex justify-content-center mb-2">Go back</a>
                     </div>
                 </div>
             </article>
         </div>
 
 
-         <section class="borrowings row">
-            <table class="col-12 table table-dark table-striped" th:if="${Pizza.borrowings.size() > 0}">
+         <section class="offers row">
+            <table class="col-12 table table-hover" th:if="${Pizza.offers.size() > 0}">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -56,15 +61,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="borrowing : ${Pizza.borrowings}" th:object="${borrowing}">
-                        <td th:text="${borrowing.id}"></td>
-                        <td th:text="${borrowing.startingDate}"></td>
-                        <td th:text="${borrowing.finishingDate}"></td>
-                        <td th:text="${borrowing.title}"></td>
+                    <tr th:each="offer : ${Pizza.offers}" th:object="${offer}">
+                        <td th:text="${offer.id}"></td>
+                        <td th:text="${offer.startingDate}"></td>
+                        <td th:text="${offer.finishingDate}"></td>
+                        <td th:text="${offer.title}"></td>
                         <td>
                             
     
-                            <a th:href="@{|/borrowings/edit/*{id}|}" class="btn btn-success btn-sm">Edit</a>
+                            <a th:href="@{|/offers/edit/*{id}|}" class="btn btn-success btn-sm">Edit</a>
 
 
 
@@ -84,17 +89,17 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                                                <span th:text="'Deletion of borrowing of the pizza named: ' + ${Pizza.name} + ' borrowed on the: ' + ${borrowing.startingDate}" ></span></h1>
+                                                <span th:text="'Deletion of offer of the pizza named: ' + ${Pizza.name} + ' borrowed on the: ' + ${offer.startingDate}" ></span></h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Are you sure that you want to delete the borrowing of the <strong th:text="${Pizza.name}"></strong> borrowed on the date of <strong th:text="${borrowing.startingDate}"></strong>?</p>
+                                            <p>Are you sure that you want to delete the offer of the <strong th:text="${Pizza.name}"></strong> borrowed on the date of <strong th:text="${offer.startingDate}"></strong>?</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
-                                            <form th:action="@{|/borrowings/delete/*{id}|}" method="post"
+                                            <form th:action="@{|/offers/delete/*{id}|}" method="post"
                                                 class="d-inline">
                                                 <button type="submit" class="btn btn-danger">Delete</button>
                                             </form>
@@ -109,8 +114,8 @@
                 </tbody>
             </table>
 
-            <h2 class="text-center text-warning mt-3" th:unless="${Pizza.borrowings.size() > 0}">
-                This pizza has never been borrowed
+            <h2 class="text-center text-warning mt-3" th:unless="${Pizza.offers.size() > 0}">
+                This pizza has no offers to show
             </h2>
 
         </section>
